@@ -1,6 +1,7 @@
 package com.google.android.gms.location.sample.locationupdates;
 
 import android.app.Activity;
+import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
@@ -19,20 +20,21 @@ public class LocationUpdatesListener implements LocationListener {
     private TextView mLastUpdateTimeTextView;
     private TextView mLatitudeTextView;
     private TextView mLongitudeTextView;
+    private static Context mContext;
+
     @Override
     public void onLocationChanged(Location location) {
 
-        Object context;
-        mLatitudeTextView = (TextView) ((Activity)context).findViewById(R.id.latitude_text);
-        mLongitudeTextView = (TextView) ((Activity)context).findViewById(R.id.longitude_text);
-        mLastUpdateTimeTextView = (TextView) ((Activity)context).findViewById(R.id.last_update_time_text);
+        mLatitudeTextView = (TextView) ((Activity)getContext()).findViewById(R.id.latitude_text);
+        mLongitudeTextView = (TextView) ((Activity)getContext()).findViewById(R.id.longitude_text);
+        mLastUpdateTimeTextView = (TextView) ((Activity)getContext()).findViewById(R.id.last_update_time_text);
 
-        mLatitudeTextView.setText(String.format(Locale.ENGLISH, "%s: %f", mLatitudeLabel,
-                mCurrentLocation.getLatitude()));
-        mLongitudeTextView.setText(String.format(Locale.ENGLISH, "%s: %f", mLongitudeLabel,
-                mCurrentLocation.getLongitude()));
+        mLatitudeTextView.setText(String.format(Locale.ENGLISH, "%s: %f", "latitude",
+                location.getLatitude()));
+        mLongitudeTextView.setText(String.format(Locale.ENGLISH, "%s: %f", "longitude",
+                location.getLongitude()));
         mLastUpdateTimeTextView.setText(String.format(Locale.ENGLISH, "%s: %s",
-                mLastUpdateTimeLabel, DateFormat.getTimeInstance().format(new Date())));
+                "asd", DateFormat.getTimeInstance().format(new Date())));
     }
 
     @Override
@@ -48,5 +50,13 @@ public class LocationUpdatesListener implements LocationListener {
     @Override
     public void onProviderDisabled(String provider) {
 
+    }
+
+    public static Object getContext() {
+        return mContext;
+    }
+
+    public static void setContext(Context context) {
+        mContext = context;
     }
 }

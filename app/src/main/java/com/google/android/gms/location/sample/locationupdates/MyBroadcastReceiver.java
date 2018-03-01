@@ -11,7 +11,7 @@ import android.content.Intent;
 public class MyBroadcastReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
-        Intent as = new Intent(context, MainActivity.class);
+        Intent as = new Intent(context, LocationUpdatesListener.class);
         context.startService(intent);
     }
 }

@@ -162,13 +162,14 @@ public class MainActivity extends AppCompatActivity {
      */
     private String mLastUpdateTime;
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        LocationUpdatesListener.setContext(this);
         // Locate the UI widgets.
         mStartUpdatesButton = (Button) findViewById(R.id.start_updates_button);
         mStopUpdatesButton = (Button) findViewById(R.id.stop_updates_button);
@@ -219,6 +220,8 @@ public class MainActivity extends AppCompatActivity {
             updateUI();
         }
     }
+
+
 
 
 
