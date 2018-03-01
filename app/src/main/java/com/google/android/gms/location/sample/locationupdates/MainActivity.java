@@ -18,10 +18,13 @@ package com.google.android.gms.location.sample.locationupdates;
 
 import android.Manifest;
 import android.app.Activity;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Looper;
@@ -74,6 +77,8 @@ import java.util.Locale;
  */
 public class MainActivity extends AppCompatActivity {
 
+
+    PendingIntent callbackIntent;
     private static final String TAG = MainActivity.class.getSimpleName();
 
     /**
@@ -322,6 +327,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void startLocationUpdates() {
         // Begin by checking if the device has the necessary location settings.
+        Intent intent = new Intent("UNIQUE_BROADCAST_ACTION_STRING_HERE");
+        callbackIntent = PendingIntent.getBroadcast(this.getApplicationContext(), 0, intent, 0);
+
         mSettingsClient.checkLocationSettings(mLocationSettingsRequest)
                 .addOnSuccessListener(this, new OnSuccessListener<LocationSettingsResponse>() {
                     @Override
@@ -331,8 +339,9 @@ public class MainActivity extends AppCompatActivity {
                         if (checkPermission(Manifest.permission.ACCESS_FINE_LOCATION,0,0) ==
                                 PackageManager.PERMISSION_GRANTED)
                             mFusedLocationClient.requestLocationUpdates(mLocationRequest,
-                                    mLocationCallback, Looper.myLooper());
+                                    callbackIntent);
                         updateUI();
+
                     }
                 })
                 .addOnFailureListener(this, new OnFailureListener() {
